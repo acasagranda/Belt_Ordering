@@ -1,0 +1,36 @@
+{% extends "layout2.html" %}
+
+{% block title %}
+    Register Instructor
+{% endblock %}
+
+{% block main %}
+    <br><br>
+    <div class="center">
+        <h1>Register an Instructor</h1>
+        <br>
+        <form action="" method="post">
+            {{ form.hidden_tag() }}
+            <p>
+                {{ form.email.label }}
+                {{ form.email(size=30) }}
+            </p>
+            <p>
+                {{ form.role.label }}
+                {{ form.role() }}
+            </p>
+            <p>
+                {{ form.school_id.label }}
+                {{ form.school_id() }}
+            </p>
+            <br>
+
+            <p> {{ form.submit() }}</p>
+
+        </form>
+
+
+
+
+    </div>
+{% endblock %}

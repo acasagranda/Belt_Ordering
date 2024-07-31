@@ -1,0 +1,18 @@
+{% extends "layout2.html" %}
+
+{% block title %}
+    Choose Order to View
+{% endblock %}
+
+{% block main %}
+    <br><br>
+    <div class="center">
+        <h1>Choose Order to View:</h1>
+        <br>
+
+        {% for orderid,date in order_list %}
+            <p> {{date}} <a href="/printorderinstructor/{{orderid}}">View this order</a> </p>
+        {% endfor %}
+    </div>
+
+{% endblock %}

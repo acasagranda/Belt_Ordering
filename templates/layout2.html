@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+    <head>
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="initial-scale=1, width=device-width">
+        <link href="/static/style/style.css" rel="stylesheet">
+        <title>Young Brothers Belt Order Site: {% block title %}{% endblock %}</title>
+
+
+    </head>
+
+    <body>
+
+        {% if get_flashed_messages() %}
+            <header>
+                <div class="alert" role="alert">
+                    {{ get_flashed_messages() | join(" ") }}
+                </div>
+            </header>
+        {% endif %}
+        <br>
+        <div id="top">
+            <img src="/static/images/YBTKD-logo.jpg" alt="Young Brothers" style="width:auto;max-width: 100%;height: auto;display: block;margin-left: auto;margin-right: auto;">
+        </div>
+        <div class="head">
+            <h1>Belt Order Site</h1>
+            <br> <br>
+        </div>
+        <nav>
+            <div class="navlist">
+                <a class="navlistlink" href="/changepassword">Change Password</a> <a class="navlistlink" href="/options">OPTIONS</a> <a class="navlistlink" href="/logout">Logout</a>
+            </div>
+        </nav>
+        <main>
+            {% block main %}{% endblock %}
+        </main>
+
+    </body>
+
+</html>

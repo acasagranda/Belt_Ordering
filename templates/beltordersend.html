@@ -1,0 +1,67 @@
+{% extends "layout2.html" %}
+
+{% block title %}
+    View Order
+{% endblock %}
+
+{% block main %}
+    <br><br>
+    <div class="center">
+        <form method="POST" action="/beltorderfile">
+            <input type="submit" value="Make this order">
+        </form>
+        <h1>Young Brothers Belt Order</h1>
+        <br><br>
+        <table>
+        <!-- ************************************* -->
+            {% for i in range(4) %}
+                <tr>
+                    <th class="rank" colspan="2"> Junior {{ranks[i]}} Degree - {{colors[i]}} Writing </th>
+                </tr>
+                <tr>
+                    <th class="head">Name</th>
+                    <th class="head">Size</th>
+                </tr>
+                {% for belt in belt_order_list %}
+                    {% if belt[4] == 'Junior' and belt[3] == i + 1 %}
+                        <tr>
+                            <td class="prod">{{ belt[2] }} {{ belt[1] }} </td>
+                            <td class="prod">{{belt[0]}}</td>
+                        </tr>
+                    {% endif %}
+                {% endfor %}
+                <tr>
+                    <th class="rank" colspan="2"> Adult {{ranks[i]}} Degree - {{colors[i]}} Writing </th>
+                </tr>
+                <tr>
+                    <th class="head">Name</th>
+                    <th class="head">Size</th>
+                </tr>
+                {% for belt in belt_order_list %}
+                    {% if belt[4] == 'Adult' and belt[3] == i + 1 %}
+                        <tr>
+                            <td class="prod">{{ belt[2] }} {{ belt[1] }}</td>
+                            <td class="prod">{{belt[0]}}</td>
+                        </tr>
+                    {% endif %}
+                {% endfor %}
+            {% endfor %}
+            {% for i in range(3) %}
+                <tr>
+                    <th class="rank" colspan="2"> Adult {{ranks[i + 4]}} Degree - {{colors[i + 4]}} Writing </th>
+                </tr>
+                <tr>
+                    <th class="head">Name</th>
+                    <th class="head">Size</th>
+                </tr>
+                {% for belt in belt_order_list %}
+                    {% if belt[4] == 'Adult' and belt[3] == i + 5 %}
+                        <tr>
+                            <td class="prod">{{ belt[2] }} {{ belt[1] }}</td>
+                            <td class="prod">{{belt[0]}}</td>
+                        </tr>
+                    {% endif %}
+                {% endfor %}
+            {% endfor %}
+
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends "layout2.html" %}
+
+{% block title %}
+    Choose Student
+{% endblock %}
+
+{% block main %}
+    <br><br>
+    <div class="center">
+        <h1>Choose a Student to Edit or Move to Archive:</h1>     
+        (Students that quit can be moved to the Archives and they will no longer show up on your lists.)       
+        <br><br><br>
+        <table class="centertable">
+            {% for student in studentlist %}
+                <tr>
+                    <td class="prod">{{student.first_name}} </td>
+                    <td class="prod">{{student.last_name}} </td>
+                    <td class="prod">{{student.level}} </td>
+                    {% if current_user.role == 'admin' %}
+                        <td class="prod">{{student.school_id}} </td>
+                    {% endif %}
+                    <td class="prod"><a href="/editstudent/{{student.id}}">Edit this Student</a></td>
+                    <td class="prod"><a href="/archive/{{student.id}}">Move this Student to the Archives</a></td>
+                </tr>
+
+            {% endfor %}
+        </table>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,85 @@
+{% extends "layout2.html" %}
+
+{% block title %}
+    View Order
+{% endblock %}
+
+{% block main %}
+    <br><br>
+    <div class="center">
+        
+        <h1>{{school}} Belt Order</h1>
+        <h4>Ordered on {{date}}</h4>
+        <br><br>
+        <table>
+        <!-- ************************************* -->
+            {% for i in range(4) %}
+                {% if junior[i+1] %}
+                    <tr>
+                        <th class="rank" colspan="2"> Junior {{ranks[i]}} Degree </th>
+                    </tr>
+                    <tr>
+                        <th class="head">Name</th>
+                        <th class="head">Size</th>
+                        {% if current_user.role == 'admin' %}
+                            <th class="head">School</th>
+                        {% endif %}
+                    </tr>
+                    {% for belt in junior[i+1] %}
+                        <tr>
+                            <td class="prod">{{ belt[0] }} {{ belt[1] }} </td>
+                            <td class="prod">{{belt[2]}}</td>
+                            {% if current_user.role == 'admin' %}
+                                <td class="prod">{{ belt[3] }}</td>
+                            {% endif %}
+                        </tr>              
+                    {% endfor %}
+                {% endif %}
+                {% if adult[i+1] %}
+                    <tr>
+                        <th class="rank" colspan="2"> Adult {{ranks[i]}} Degree </th>
+                    </tr>
+                    <tr>
+                        <th class="head">Name</th>
+                        <th class="head">Size</th>
+                        {% if current_user.role == 'admin' %}
+                            <th class="head">School</th>
+                        {% endif %}
+                    </tr>
+                    {% for belt in adult[i+1] %}
+                        <tr>
+                            <td class="prod">{{ belt[0] }} {{ belt[1] }}</td>
+                            <td class="prod">{{belt[2]}}</td>
+                            {% if current_user.role == 'admin' %}
+                                <td class="prod">{{ belt[3] }}</td>
+                            {% endif %}
+                        </tr>
+                    {% endfor %}
+                {% endif %}
+            {% endfor %}
+            {% for i in range(3) %}
+                {% if adult[i+5] %}
+                    <tr>
+                        <th class="rank" colspan="2"> Adult {{ranks[i + 4]}} Degree </th>
+                    </tr>
+                    <tr>
+                        <th class="head">Name</th>
+                        <th class="head">Size</th>
+                        {% if current_user.role == 'admin' %}
+                            <th class="head">School</th>
+                        {% endif %}
+                    </tr>
+                    {% for belt in adult[i+5] %}
+                        <tr>
+                            <td class="prod">{{ belt[0] }} {{ belt[1] }}</td>
+                            <td class="prod">{{belt[2]}}</td>
+                            {% if current_user.role == 'admin' %}
+                                <td class="prod">{{ belt[3] }}</td>
+                            {% endif %}
+                        </tr>
+                    {% endfor %}
+                {% endif %}
+            {% endfor %}
+        </table>  
+    </div>          
+{% endblock %}

@@ -1,0 +1,165 @@
+{% extends "layout2.html" %}
+
+{% block title %}
+    Instructor Belt Order
+{% endblock %}
+
+{% block main %}
+    <br><br>
+    <div class="center">
+        <h1>Make or Edit a Belt Order</h1>
+        <br><br>
+        <hr>
+        <h2>Choose a Student to Add to Belt Order</h2>
+        <p>If student is not on list go to <a href="/addstudent">Add a New Student</a></p>
+        <br>
+        <form method="POST" action="/addtoorder">
+            <select name="studentid" id="student-select">
+                <option value="">--Choose a student:--</option>
+                {% for student in student_list %}
+                    <option value="({{ student.id }})">{{ student.last_name }}, {{ student.first_name }} - {{ student.level }}</option>
+                {% endfor %}
+            </select>
+            <input type="submit" value="Add this Student">
+        </form>
+        <br>
+        <hr>
+        <br>
+        <h2> {{school}} BELT ORDER</h2>
+        <p>Check each student to be sure name is the way they want it on their belt.</p>
+        <p>Add belt size and check rank and level for correctness.</p>
+        <p>Check the remove box if you decide not to order.</p>
+        <br>
+        <form method="POST" action="/editorderinstructor">
+            <input type="submit" value="SAVE CHANGES" style="background-color:#D7232F; padding: 1%;">
+            <br><br>
+            <table>
+            <!-- ************************************* -->
+                {% for i in range(4) %}
+                    <tr>
+                        <th class="rank" colspan="7"> Junior {{ranks[i]}} Degree </th>
+                    </tr>
+                    <tr>
+                        <th class="head">First Name</th>
+                        <th class="head">Last Name</th>
+                        <th class="head">Last Size Ordered</th>
+                        <th class="head">Size to Order Now</th>
+                        <th class="head">Rank to Order</th>
+                        <th class="head">Level to Order</th>
+                        <th class="head">Remove From Order</th>
+                        {% if current_user.role == 'admin' %}
+                            <th class="head">School</th>
+                        {% endif %}
+                    </tr>
+                    {% for belt in belt_order_list %}
+                        {% if belt[3]=='Junior' and belt[5]== i + 1 %}
+                            <input type="hidden" name="beltid" value={{belt[4]}}>
+                            <input type="hidden" name="studentid" value={{belt[2]}}>
+                            <tr>
+                                <td class="prod"><input type="text" name="first_name" value="{{ belt[1] }}"> </td>
+                                <td class="prod"><input type="text" name="last_name" value="{{ belt[0] }}"></td>
+                                <td class="prod">{{belt[7]}}</td>
+                                {% if belt[6] or belt[6] == 0 %}
+                                    <td class="prod"><input type="number" name="size" value={{ belt[6] }} min="0"></td>
+                                {% else %}
+                                    <td class="prod"><input class="size" type="number" name="size" value={{ belt[6]}} min="0"></td>
+                                {% endif %}
+                                <td class="prod"><input type="number" name="rank" value={{ belt[5] }}></td>
+                                <td class="prod"><select name="level" id="level-select">
+                                    <option selected="selected" value="Junior">Junior</option>
+                                    <option value="Adult">Adult</option>
+                                </select></td>
+                                <td class="prod"><input type="checkbox" name="remove" value={{belt[4]}}></td>
+                                {% if current_user.role == 'admin' %}
+                                    <td class="prod">{{ belt[8] }}</td>
+                                {% endif %}
+                            </tr>
+                        {% endif %}
+                    {% endfor %}
+                    <tr>
+                        <th class="rank" colspan="7"> Adult {{ranks[i]}} Degree </th>
+                    </tr>
+                    <tr>
+                        <th class="head">First Name</th>
+                        <th class="head">Last Name</th>
+                        <th class="head">Last Size Ordered</th>
+                        <th class="head">Size to Order Now</th>
+                        <th class="head">Rank to Order</th>
+                        <th class="head">Level to Order</th>
+                        <th class="head">Remove From Order</th>
+                    </tr>
+                    {% for belt in belt_order_list %}
+                        {% if belt[3]=='Adult' and belt[5]== i + 1 %}
+                            <input type="hidden" name="beltid" value={{belt[4]}}>
+                            <input type="hidden" name="studentid" value={{belt[2]}}>
+                            <tr>
+                                <td class="prod"><input type="text" name="first_name" value="{{ belt[1] }}"> </td>
+                                <td class="prod"><input type="text" name="last_name" value="{{ belt[0] }}"></td>
+                                <td class="prod">{{belt[7]}}</td>
+                                {% if belt[6] %}
+                                    <td class="prod"><input type="number" name="size" value={{ belt[6] }} min="0"></td>
+                                {% else %}
+                                    <td class="prod"><input class="size" type="number" name="size" value={{ belt[6]}} min="0"></td>
+                                {% endif %}
+                                <td class="prod"><input type="number" name="rank" value={{ belt[5] }}></td>
+                                <td class="prod"><select name="level" id="level-select">
+                                    <option value="Junior">Junior</option>
+                                    <option selected="selected" value="Adult">Adult</option>
+                                </select></td>
+                                <td class="prod"><input type="checkbox" name="remove" value={{belt[4]}}></td>
+                                {% if current_user.role == 'admin' %}
+                                    <td class="prod">{{ belt[8] }}</td>
+                                {% endif %}
+                            </tr>
+                        {% endif %}
+                    {% endfor %}
+                {% endfor %}
+
+            <!-- ************************************* -->
+                {% for i in range(3) %}
+                    <tr>
+                        <th class="rank" colspan="7"> Adult {{ranks[i+4]}} Degree </th>
+                    </tr>
+                    <tr>
+                        <th class="head">First Name</th>
+                        <th class="head">Last Name</th>
+                        <th class="head">Last Size Ordered</th>
+                        <th class="head">Size to Order Now</th>
+                        <th class="head">Rank to Order</th>
+                        <th class="head">Level to Order</th>
+                        <th class="head">Remove From Order</th>
+                    </tr>
+                    {% for belt in belt_order_list %}
+                        {% if belt[3]=='Adult' and belt[5]== i + 5 %}
+                            <input type="hidden" name="beltid" value={{belt[4]}}>
+                            <input type="hidden" name="studentid" value={{belt[2]}}>
+                            <tr>
+                                <td class="prod"><input type="text" name="first_name" value="{{ belt[1] }}"> </td>
+                                <td class="prod"><input type="text" name="last_name" value="{{ belt[0] }}"></td>
+                                <td class="prod">{{belt[7]}}</td>
+                                {% if belt[6] %}
+                                    <td class="prod"><input type="number" name="size" value={{ belt[6] }} min="0"></td>
+                                {% else %}
+                                    <td class="prod"><input class="size" type="number" name="size" value={{ belt[6]}} min="0"></td>
+                                {% endif %}
+                                <td class="prod"><input type="number" name="rank" value={{ belt[5] }}></td>
+                                <td class="prod"><select name="level" id="level-select">
+                                    <option value="Junior">Junior</option>
+                                    <option selected="selected" value="Adult">Adult</option>
+                                </select></td>
+                                <td class="prod"><input type="checkbox" name="remove" value={{belt[4]}}></td>
+                                {% if current_user.role == 'admin' %}
+                                    <td class="prod">{{ belt[8] }}</td>
+                                {% endif %}
+                            </tr>
+                        {% endif %}
+                    {% endfor %}
+                {% endfor %}
+            <!-- ************************************* -->
+            </table>
+            <br><br>
+            <input type="submit" value="SAVE CHANGES" style="background-color: #D7232F; padding: 1%;">
+        </form>
+    </div>
+{% endblock %}
+

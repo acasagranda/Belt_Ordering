@@ -1,0 +1,25 @@
+{% extends "layout2.html" %}
+
+{% block title %}
+    Choose Instructor
+{% endblock %}
+
+{% block main %}
+    <br><br>
+    <div class="center">
+        <h1>Choose a Instructor to Edit or Delete:</h1>
+        <br><br><br>
+        <table class="centertable">
+            {% for instructor in instructorlist %}
+                <tr>
+                    <td class="prod">{{instructor.email}} </td>
+                    <td class="prod">{{instructor.school_id}} </td>
+                    <td class="prod"><a href="/editinstructor/{{instructor.id}}">Edit this Instructor</a></td>
+                    <td class="prod"><a href="/delete/{{instructor.id}}">Delete this Instructor</a></td>
+                </tr>
+
+            {% endfor %}
+        </table>
+    </div>
+
+{% endblock %}

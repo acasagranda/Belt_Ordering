@@ -1,0 +1,44 @@
+{% extends "layout2.html" %}
+
+{% block title %}
+    Edit Student
+{% endblock %}
+
+{% block main %}
+    <br><br>
+    <div class="center">
+        <h1>Edit this Student:</h1>
+        <br>
+        <form action="" method="post">
+            {{ form.hidden_tag() }}
+            <p>
+                {{ form.first_name.label }}
+                {{ form.first_name(size=30) }}
+            </p>
+            <p>
+                {{ form.last_name.label }}
+                {{ form.last_name(size=30) }}
+                <p>
+                    {{ form.rank.label }}
+                    {{ form.rank() }}
+                </p>
+                <p>
+                    {{ form.level.label }}
+                    {% for subfield in form.level %}
+                        {{ subfield() }} {{ subfield.label }}
+                    {% endfor %}
+                </p>
+                {% if current_user.role == 'admin' %}
+                    <p>
+                        {{ form.school_id.label }}
+                        {{ form.school_id() }}
+                        <p>
+                {% endif %}
+                <br>
+                <p> {{ form.submit() }}</p>
+
+            </form>
+        </div>
+
+
+{% endblock %}
