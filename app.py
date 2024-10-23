@@ -21,7 +21,7 @@ login_manager.init_app(app)
 
 
 # Information on each student stored as archive
-class Archive(UserMixin, db.Model):
+class Archive(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     student_id = db.Column(db.Integer)
     first_name = db.Column(db.String(100))
@@ -34,7 +34,7 @@ class Archive(UserMixin, db.Model):
 # Information on each belt ordered
 
 
-class Belt(UserMixin, db.Model):
+class Belt(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     request_date = db.Column(db.DateTime(), default=datetime.now(timezone.utc), index=True)
     rank = db.Column(db.Integer)
@@ -46,7 +46,7 @@ class Belt(UserMixin, db.Model):
 # Information on each order actually ordered
 
 
-class Order(UserMixin, db.Model):
+class Order(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     order_date = db.Column(db.DateTime(), default=datetime.now(timezone.utc), index=True)
     schoolorders = db.relationship('Schoolorder', backref=db.backref('order'))
@@ -56,7 +56,7 @@ class Order(UserMixin, db.Model):
 # Bridge Order and Belt
 
 
-class Orderbelt(UserMixin, db.Model):
+class Orderbelt(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     order_id = db.Column(db.Integer, db.ForeignKey('order.id'), nullable=False)
     belt_id = db.Column(db.Integer, db.ForeignKey('belt.id'), nullable=False)
@@ -65,7 +65,7 @@ class Orderbelt(UserMixin, db.Model):
 # Information on each school
 
 
-class School(UserMixin, db.Model):
+class School(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     location = db.Column(db.String(100))
     extra = db.Column(db.String(100))
@@ -76,7 +76,7 @@ class School(UserMixin, db.Model):
 # Information on each school order actually ordered
 
 
-class Schoolorder(UserMixin, db.Model):
+class Schoolorder(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     school_id = db.Column(db.Integer, db.ForeignKey('school.id'), nullable=False)
     order_id = db.Column(db.Integer, db.ForeignKey('order.id'), nullable=False)
@@ -85,7 +85,7 @@ class Schoolorder(UserMixin, db.Model):
 # Information on each student
 
 
-class Student(UserMixin, db.Model):
+class Student(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     first_name = db.Column(db.String(100))
     last_name = db.Column(db.String(100), index=True)
