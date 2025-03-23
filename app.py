@@ -1,8 +1,6 @@
 import os
-import csv
 
 from datetime import datetime, timezone
-# from dotenv import load_dotenv
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin
@@ -21,6 +19,7 @@ login_manager.init_app(app)
 
 
 # Information on each student stored as archive
+
 class Archive(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     student_id = db.Column(db.Integer)
@@ -31,8 +30,8 @@ class Archive(db.Model):
     school_id = db.Column(db.Integer, db.ForeignKey('school.id'), nullable=False)
     extra = db.Column(db.String(100))
 
-# Information on each belt ordered
 
+# Information on each belt ordered
 
 class Belt(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -43,8 +42,8 @@ class Belt(db.Model):
     student_id = db.Column(db.Integer, db.ForeignKey('student.id'), nullable=False)
     extra = db.Column(db.String(100))
 
-# Information on each order actually ordered
 
+# Information on each order actually ordered
 
 class Order(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -55,15 +54,14 @@ class Order(db.Model):
 
 # Bridge Order and Belt
 
-
 class Orderbelt(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     order_id = db.Column(db.Integer, db.ForeignKey('order.id'), nullable=False)
     belt_id = db.Column(db.Integer, db.ForeignKey('belt.id'), nullable=False)
     extra = db.Column(db.String(100))
 
-# Information on each school
 
+# Information on each school
 
 class School(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -73,8 +71,8 @@ class School(db.Model):
         'school'), order_by="Student.last_name,Student.first_name")
     schoolorders = db.relationship('Schoolorder', backref=db.backref('school'))
 
-# Information on each school order actually ordered
 
+# Information on each school order actually ordered
 
 class Schoolorder(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -82,8 +80,8 @@ class Schoolorder(db.Model):
     order_id = db.Column(db.Integer, db.ForeignKey('order.id'), nullable=False)
     extra = db.Column(db.String(100))
 
-# Information on each student
 
+# Information on each student
 
 class Student(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -95,8 +93,8 @@ class Student(db.Model):
     school_id = db.Column(db.Integer, db.ForeignKey('school.id'), nullable=False)
     extra = db.Column(db.String(100))
 
-# Users will be Instructors
 
+# Users will be Instructors
 
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)

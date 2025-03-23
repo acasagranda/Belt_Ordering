@@ -18,6 +18,7 @@ def load_user(id):
 
 
 # sign in page
+
 @app.route('/', methods=['GET', 'POST'])
 def signin():
     form = LoginForm()
@@ -33,8 +34,8 @@ def signin():
 
     return render_template('signin.html', form=form)
 
-# Both instructor and admin can add a new student to db
 
+# Both instructor and admin can add a new student to db
 
 @app.route('/addstudent', methods=['GET', 'POST'])
 @login_required
@@ -65,8 +66,8 @@ def addstudent():
 
     return render_template('addstudent.html', form=form)
 
-# add student to instructor belt order
 
+# add student to instructor belt order
 
 @app.route('/addtoorder', methods=['POST'])
 @login_required
@@ -86,8 +87,8 @@ def addtoorder():
 
     return redirect(url_for('beltorderinstructor'))
 
-# Put student in archive
 
+# Put student in archive
 
 @app.route('/archive/<studentid>', methods=['GET', 'POST'])
 @login_required
@@ -105,8 +106,8 @@ def archive(studentid):
     flash('You have successfully moved the Student.')
     return redirect(url_for('choosestudent'))
 
-# make or edit a belt order for instructors - admin can also view and edit
 
+# make or edit a belt order for instructors - admin can also view and edit
 
 @app.route('/beltorderinstructor', methods=['GET', 'POST'])
 @login_required
@@ -123,7 +124,7 @@ def beltorderinstructor():
         school_location = school.location
         student_list = school.students
         student_set = {student.id for student in student_list}
-    # get a list of belt orders for this school that haven't been ordered yet
+        # get a list of belt orders for this school that haven't been ordered yet
         current_belt_orders = Belt.query.filter(Belt.student_id.in_(
             student_set)).filter(Belt.is_ordered == False).all()
     belt_order_list = []
@@ -145,6 +146,7 @@ def beltorderinstructor():
 
 
 # make a belt order file for individual schools and whole school
+
 @app.route('/beltorderfile', methods=['POST'])
 @login_required
 def beltorderfile():
@@ -160,7 +162,6 @@ def beltorderfile():
     db.session.add(order)
     db.session.commit()
     # all school orders will be in orders file named order1.csv etc.  individual school orders will be indiana1.csv
-    # filename = r"/home/TerryM/dealer.picassolures.com/orders/order"+str(order.id)+".csv"
     filename = 'orders/order'+str(order.id)+".csv"
     filenames = ["", 'orders/school1'+str(order.id)+".csv", 'orders/school2'+str(order.id)+".csv", 'orders/school3'+str(order.id)+".csv", 'orders/school4'+str(
         order.id)+".csv", 'orders/school5'+str(order.id)+".csv", 'orders/school6'+str(order.id)+".csv", 'orders/school7'+str(order.id)+".csv"]
@@ -192,6 +193,7 @@ def beltorderfile():
 
 
 # make a belt order to send - Views order to confirm then click button to make order
+
 @app.route('/beltordersend', methods=['GET', 'POST'])
 @login_required
 def beltordersend():
@@ -218,6 +220,7 @@ def beltordersend():
 
 
 # User changes own password
+
 @app.route('/changepassword', methods=['GET', 'POST'])
 @login_required
 def changepassword():
@@ -254,7 +257,6 @@ def choosearchive():
 
 # choose instructor to edit or delete
 
-
 @app.route('/chooseinstructor', methods=['GET', 'POST'])
 @login_required
 def chooseinstructor():
@@ -266,6 +268,7 @@ def chooseinstructor():
 
 
 # Choose which order to print out of a list of all orders admin
+
 @app.route('/chooseorderadmin', methods=['GET'])
 @login_required
 def chooseorderadmin():
@@ -282,6 +285,7 @@ def chooseorderadmin():
 
 
 # Choose which order to print out of a list of all orders
+
 @app.route('/chooseorderinstructor', methods=['GET'])
 @login_required
 def chooseorderinstructor():
@@ -297,6 +301,7 @@ def chooseorderinstructor():
 
 
 # choose student to edit or archive
+
 @app.route('/choosestudent', methods=['GET', 'POST'])
 @login_required
 def choosestudent():
@@ -309,6 +314,7 @@ def choosestudent():
 
 
 # Delete Instructor
+
 @app.route('/delete/<userid>', methods=['GET', 'POST'])
 @login_required
 def delete(userid):
@@ -323,8 +329,8 @@ def delete(userid):
     flash('You have successfully deleted the User.')
     return redirect(url_for('chooseinstructor'))
 
-# Delete student from archive
 
+# Delete student from archive
 
 @app.route('/deletestudent/<archiveid>', methods=['GET', 'POST'])
 @login_required
@@ -340,6 +346,7 @@ def deletestudent(archiveid):
 
 
 # edit the chosen instructor
+
 @app.route('/editinstructor/<userid>', methods=['GET', 'POST'])
 @login_required
 def editinstructor(userid):
@@ -375,6 +382,7 @@ def editinstructor(userid):
 
 
 # edit instructor belt order
+
 @app.route('/editorderinstructor', methods=['POST'])
 @login_required
 def editorderinstructor():
@@ -410,6 +418,7 @@ def editorderinstructor():
 
 
 # edit the chosen student
+
 @app.route('/editstudent/<studentid>', methods=['GET', 'POST'])
 @login_required
 def editstudent(studentid):
@@ -458,6 +467,7 @@ def logout():
 
 
 # gets to all pages
+
 @app.route('/options')
 @login_required
 def options():
@@ -465,6 +475,7 @@ def options():
 
 
 # view past order for company - sort by size - no heading
+
 @app.route('/printorderc/<orderid>', methods=['GET', 'POST'])
 @login_required
 def printorderc(orderid):
@@ -474,7 +485,6 @@ def printorderc(orderid):
     order = Order.query.filter_by(id=orderid).first()
     junior = defaultdict(list)
     adult = defaultdict(list)
-    # with open(r"/home/TerryM/dealer.picassolures.com/orders/order"+str(order.id)+".csv", newline='') as csvfile:
     with open('orders/order' + orderid + '.csv', newline='') as csvfile:
         spamreader = csv.reader(csvfile, delimiter=',')
         for row in spamreader:
@@ -495,6 +505,7 @@ def printorderc(orderid):
 
 
 # view past order for admin as an instructor - includes school
+
 @app.route('/printorderi/<orderid>', methods=['GET', 'POST'])
 @login_required
 def printorderi(orderid):
@@ -504,7 +515,6 @@ def printorderi(orderid):
     order = Order.query.filter_by(id=orderid).first()
     junior = defaultdict(list)
     adult = defaultdict(list)
-    # with open(r"/home/TerryM/dealer.picassolures.com/orders/order"+str(order.id)+".csv", newline='') as csvfile:
     with open('orders/order' + orderid + '.csv', newline='') as csvfile:
         spamreader = csv.reader(csvfile, delimiter=',')
         for row in spamreader:
@@ -525,6 +535,7 @@ def printorderi(orderid):
 
 
 # view past order for instructors
+
 @app.route('/printorderinstructor/<orderid>', methods=['GET', 'POST'])
 @login_required
 def printorderinstructor(orderid):
@@ -532,7 +543,6 @@ def printorderinstructor(orderid):
     order = Order.query.filter_by(id=orderid).first()
     junior = defaultdict(list)
     adult = defaultdict(list)
-    # with open(r"/home/TerryM/dealer.picassolures.com/orders/order"+str(order.id)+".csv", newline='') as csvfile:
     with open('orders/'+school.location.lower()+orderid+'.csv', newline='') as csvfile:
         spamreader = csv.reader(csvfile, delimiter=',')
         for row in spamreader:
@@ -596,8 +606,8 @@ def register():
 
     return render_template('register.html', form=form)
 
-# Reinstate student from archive
 
+# Reinstate student from archive
 
 @app.route('/returnstudent/<archiveid>', methods=['GET', 'POST'])
 @login_required
@@ -618,6 +628,7 @@ def returnstudent(archiveid):
 
 
 # user requests password reset
+
 @app.route('/resetpassword', methods=['GET', 'POST'])
 def resetpassword():
     form = EmailForm()
